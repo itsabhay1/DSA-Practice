@@ -2,8 +2,8 @@ class Solution {
 public:
     int findFinalValue(vector<int>& nums, int original) {
         unordered_set<int> s(nums.begin(),nums.end());
-        while(s.find(original) != s.end()){
-            original = original*2;
+        while(s.count(original)){
+            original <<= 1;
         }
         return original;
     }
