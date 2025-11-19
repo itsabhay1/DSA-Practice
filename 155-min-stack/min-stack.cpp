@@ -10,8 +10,7 @@ public:
             st.push({val,val});
         }
         else{
-            st.push({val, min(val,st.top().second
-            )});
+            st.push({val, min(val,st.top().second)});
         }
     }
     
