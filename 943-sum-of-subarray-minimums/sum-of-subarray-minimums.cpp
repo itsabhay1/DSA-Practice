@@ -1,45 +1,31 @@
 class Solution {
-private:
-    vector<int> findNSE(vector<int>&arr){
-        int n = arr.size();
-        vector<int>ans(n);
-        stack<int>st;
-        for(int i=n-1; i>=0; i--){
-            while(!st.empty() && arr[st.top()] >= arr[i]){
-                st.pop();
-            }
-            ans[i] = !st.empty()? st.top() : n;
-            st.push(i);
-        }
-        return ans;
-    }
-    vector<int> findPSE(vector<int>&arr){
-        int n = arr.size();
-        vector<int>ans(n);
-        stack<int>st;
-        for(int i=0; i<n; i++){
-            while(!st.empty() && arr[st.top()] > arr[i]){
-                st.pop();
-            }
-            ans[i] = !st.empty()? st.top() : -1;
-            st.push(i);
-        }
-        return ans;
-    }
 public:
     int sumSubarrayMins(vector<int>& arr) {
-        vector<int> nse = findNSE(arr);
-        vector<int> pse = findPSE(arr);
         int n = arr.size();
-        int mod = 1e9+7;
-        int sum = 0;
-        for(int i=0; i<n; i++){
-            int left = i -pse[i];
-            int right = nse[i]-i;
-            long long freq = left*right*1LL;
-            int val = (freq*arr[i]*1LL) % mod;
-            sum = (sum + val) % mod;
+        arr.push_back(0);   // sentinel to flush stack
+        long long mod = 1e9 + 7;
+        
+        stack<int> st;  // stack of indices
+        long long result = 0;
+
+        for (int i = 0; i < arr.size(); i++) {
+            while (!st.empty() && arr[st.top()] > arr[i]) {
+
+                int mid = st.top();
+                st.pop();
+
+                int left = st.empty() ? -1 : st.top();
+                int right = i;
+
+                long long L = mid - left;
+                long long R = right - mid;
+
+                long long contrib = (L * R) % mod * arr[mid] % mod;
+                result = (result + contrib) % mod;
+            }
+            st.push(i);
         }
-        return sum;
+
+        return (int)result;
     }
 };
