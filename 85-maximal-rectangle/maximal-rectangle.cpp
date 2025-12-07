@@ -1,43 +1,36 @@
 class Solution {
-private:
-    int largeHist(vector<int>& heights){
-        heights.push_back(0);  // Sentinel to clear stack
-        int n = heights.size();
-        stack<int> st;
-        int maxArea = 0;
-        
-        for(int i = 0; i < n; i++){
-            while(!st.empty() && heights[st.top()] > heights[i]){
-                int height = heights[st.top()];
-                st.pop();
-                int left = st.empty() ? -1 : st.top();
-                int width = i - left - 1;
-                maxArea = max(maxArea, height * width);
-            }
-            st.push(i);
-        }
-        heights.pop_back();  // Remove sentinel if you want to preserve original
-        return maxArea;
-    }
-    
 public:
     int maximalRectangle(vector<vector<char>>& matrix) {
-        if(matrix.empty() || matrix[0].empty()) return 0;
-        
+        if(matrix.empty()) return 0;
+
         int rows = matrix.size();
         int cols = matrix[0].size();
-        vector<int> heights(cols, 0);
+
+        vector<int> heights(cols + 1, 0);   // +1 sentinel
+        vector<int> st;                     // faster than stack
+        st.reserve(cols + 1);
+
         int maxArea = 0;
-        
-        for(int i = 0; i < rows; i++){
-            for(int j = 0; j < cols; j++){
-                if(matrix[i][j] == '1'){
-                    heights[j] += 1;
-                } else {
-                    heights[j] = 0;
-                }
+
+        for(int i = 0; i < rows; i++) {
+
+            // Update histogram
+            for(int j = 0; j < cols; j++) {
+                heights[j] = (matrix[i][j] == '1') ? heights[j] + 1 : 0;
             }
-            maxArea = max(maxArea, largeHist(heights));
+
+            // Monotonic stack with sentinel
+            st.clear();
+
+            for(int j = 0; j <= cols; j++) {
+                while(!st.empty() && heights[st.back()] >= heights[j]) {
+                    int height = heights[st.back()];
+                    st.pop_back();
+                    int left = st.empty() ? -1 : st.back();
+                    maxArea = max(maxArea, height * (j - left - 1));
+                }
+                st.push_back(j);
+            }
         }
         return maxArea;
     }
