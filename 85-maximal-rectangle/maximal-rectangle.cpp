@@ -1,37 +1,43 @@
 class Solution {
 private:
-    int largeHist(vector<int>& matrix){
-        matrix.push_back(0);
-        int n = matrix.size();
-        vector<int>st;
-        int res = 0;
-        for(int i=0; i<n; i++){
-            while(!st.empty() && matrix[st.back()] >= matrix[i]){
-                int  nse = i;
-                int element = st.back(); st.pop_back();
-                int pse = st.empty()? -1 : st.back();
-                res = max(res, matrix[element]*(nse-pse-1));
+    int largeHist(vector<int>& heights){
+        heights.push_back(0);  // Sentinel to clear stack
+        int n = heights.size();
+        stack<int> st;
+        int maxArea = 0;
+        
+        for(int i = 0; i < n; i++){
+            while(!st.empty() && heights[st.top()] > heights[i]){
+                int height = heights[st.top()];
+                st.pop();
+                int left = st.empty() ? -1 : st.top();
+                int width = i - left - 1;
+                maxArea = max(maxArea, height * width);
             }
-            st.push_back(i);
+            st.push(i);
         }
-        return res;
+        heights.pop_back();  // Remove sentinel if you want to preserve original
+        return maxArea;
     }
+    
 public:
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int row = matrix.size();
-        int col = matrix[0].size();
-        vector<vector<int>> prefixSum(row, vector<int>(col, 0));
-        for(int j=0; j<col; j++){
-            int sum =0;
-            for(int i=0; i<row; i++){
-                sum += (matrix[i][j]-'0');
-                if(matrix[i][j]=='0') sum =0;
-                prefixSum[i][j] = sum;
-            }
-        }
+        if(matrix.empty() || matrix[0].empty()) return 0;
+        
+        int rows = matrix.size();
+        int cols = matrix[0].size();
+        vector<int> heights(cols, 0);
         int maxArea = 0;
-        for(int i =0; i<row; i++){
-            maxArea = max(maxArea, largeHist(prefixSum[i]));
+        
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if(matrix[i][j] == '1'){
+                    heights[j] += 1;
+                } else {
+                    heights[j] = 0;
+                }
+            }
+            maxArea = max(maxArea, largeHist(heights));
         }
         return maxArea;
     }
