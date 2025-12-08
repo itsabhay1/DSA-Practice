@@ -16,15 +16,14 @@ public:
 
     unordered_map<int, Node*> mpp;
     int capacity;
-    Node* head;
-    Node* tail;
+    Node* head = new Node(-1, -1);
+    Node* tail = new Node(-1, -1);
 
     LRUCache(int capacity) {
-        head = new Node(-1, -1);
-        tail = new Node(-1, -1);
         this->capacity = capacity;
         head->next = tail;
         tail->prev = head;
+        
     }
 
     void deleteNode(Node* node){
