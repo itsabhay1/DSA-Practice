@@ -16,10 +16,12 @@ public:
 
     unordered_map<int, Node*> mpp;
     int capacity;
-    Node* head = new Node(-1, -1);
-    Node* tail = new Node(-1, -1);
+    Node* head;
+    Node* tail;
 
     LRUCache(int capacity) {
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
         this->capacity = capacity;
         head->next = tail;
         tail->prev = head;
