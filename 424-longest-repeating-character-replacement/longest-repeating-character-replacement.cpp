@@ -7,7 +7,7 @@ public:
         while(r<n){
             arr[s[r]-'A']++;
             maxFreq = max(maxFreq, arr[s[r]-'A']);
-            while((r-l+1)-maxFreq > k){
+            if((r-l+1)-maxFreq > k){
                 arr[s[l]-'A']--;
                 l++;
             }
