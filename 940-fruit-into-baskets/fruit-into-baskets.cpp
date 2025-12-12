@@ -6,7 +6,7 @@ public:
         int n = fruits.size();
         while(r<n){
             mpp[fruits[r]]++;
-            while(mpp.size()>k){
+            if(mpp.size()>k){
                 mpp[fruits[l]]--;
                 if(mpp[fruits[l]]==0){
                     mpp.erase(fruits[l]);
