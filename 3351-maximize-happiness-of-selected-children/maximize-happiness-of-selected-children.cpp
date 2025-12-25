@@ -2,16 +2,11 @@ class Solution {
 public:
     long long maximumHappinessSum(vector<int>& happiness, int k) {
         sort(happiness.begin(), happiness.end(), greater<int>());
-        long long num = 0, sum = 0;
-        int i =0;
-        while(k){
-            long long happy = happiness[i];
-            if((happy-num) >= 0){
-                sum += happy-num;
-            }
-            num++;
-            i++;
-            k--;
+        long long sum = 0;
+        for(int i =0; i<k; i++){
+            long long value = happiness[i] - i;
+            if(value <= 0) break;
+            sum += value;
         }
         return sum;
     }
