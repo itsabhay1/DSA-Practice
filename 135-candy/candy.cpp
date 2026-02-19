@@ -13,11 +13,9 @@ public:
             if(ratings[i] > ratings[i+1]){
                 arr[i] = max(arr[i],arr[i+1]+1);
             }
-        }
-
-        for(int i =0; i<n; i++){
             sum += arr[i];
         }
+        sum += arr[n-1];
         return sum;
 
     }
