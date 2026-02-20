@@ -7,6 +7,7 @@ public:
         sort(intervals.begin(), intervals.end(), comp);
         int cnt =1;
         int n = intervals.size();
+        if (n==0) return 0;
         int lastIntvl = intervals[0][1];
         for(int i=1; i<n; i++){
             if(intervals[i][0] >= lastIntvl){
