@@ -20,7 +20,7 @@ public:
         if(rh == -1)return -1;
 
         if(abs(lh-rh)>1)return -1;
-        return 1 + max(height(root->left), height(root->right));
+        return 1 + max(lh,rh);
     }
     bool isBalanced(TreeNode* root) {
         return height(root) != -1;
