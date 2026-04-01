@@ -11,15 +11,16 @@
  */
 class Solution {
 public:
-    int dfsTree(TreeNode* root){
-        if(root == nullptr) return 0;
-        return 1+max(dfsTree(root->left), dfsTree(root->right));
+    int res = 0;
+    int dfs(TreeNode* root){
+        if(!root) return 0;
+        int lt = dfs(root->left);
+        int rt = dfs(root->right);
+        res = max(res, lt + rt);
+        return 1 + max(lt, rt);
     }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root == nullptr) return 0;
-        int lt = dfsTree(root->left);
-        int rt = dfsTree(root->right);
-        int n = lt + rt;
-        return max(n, max(diameterOfBinaryTree(root->left), diameterOfBinaryTree(root->right)));
+        dfs(root);
+        return res;
     }
 };
