@@ -29,8 +29,8 @@ public:
                 int index = leftToRight ? i: (size-1-i);
                 row[index] = node->val;
 
-                if(node->left ) nodesQueue.push(node->left);
-                if(node->right ) nodesQueue.push(node->right);
+                if(node->left != nullptr) nodesQueue.push(node->left);
+                if(node->right != nullptr) nodesQueue.push(node->right);
             }
 
             // change for zig zag
