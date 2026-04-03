@@ -11,30 +11,31 @@
  */
 class Solution {
 public:
+    void dfs(TreeNode* root, int x, int y, vector<tuple<int,int,int>> &nodes){
+        if(!root) return;
+
+        nodes.push_back({x, y, root->val});
+
+        dfs(root->left, x-1, y+1, nodes);
+        dfs(root->right, x+1, y+1, nodes);
+    }
+
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        map<int, map<int, multiset<int>>> nodes;
-        queue<pair<TreeNode*,pair<int,int>>> todo;          // node, vertical ordr, level 
-        todo.push({root,{0,0}});
-        while(!todo.empty()){
-            auto p = todo.front();
-            todo.pop();
-            TreeNode* node = p.first;
-            int x = p.second.first;       // vertical order
-            int y = p.second.second;      // level wise
-            nodes[x][y].insert(node->val);
-            if(node->left) todo.push({node->left, {x-1, y+1}});
-            if(node->right) todo.push({node->right, {x+1, y+1}});
-        }
+        vector<tuple<int,int,int>> nodes;
+
+        dfs(root, 0, 0, nodes);
+
+        sort(nodes.begin(), nodes.end());
+
         vector<vector<int>> ans;
+        int prevX = INT_MIN;
 
-        for(auto &p : nodes){         
-            vector<int> col;
-
-            for(auto &q : p.second){       
-                col.insert(col.end(), q.second.begin(), q.second.end());
+        for(auto &[x, y, val] : nodes){
+            if(x != prevX){
+                ans.push_back({});
+                prevX = x;
             }
-
-            ans.push_back(col);
+            ans.back().push_back(val);
         }
 
         return ans;
