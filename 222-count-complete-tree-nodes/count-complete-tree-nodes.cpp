@@ -11,16 +11,8 @@
  */
 class Solution {
 public:
-    void dfs(TreeNode* root, vector<int>& ans){
-        if(root == nullptr) return;
-
-        ans.push_back(root->val);
-        dfs(root->left, ans);
-        dfs(root->right, ans);
-    }
     int countNodes(TreeNode* root) {
-        vector<int>ans;
-        dfs(root,ans);
-        return ans.size();
+        if (!root) return 0;
+        return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
