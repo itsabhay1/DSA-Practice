@@ -6,13 +6,34 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
  * };
  */
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if (!root) return 0;
-        return 1 + countNodes(root->left) + countNodes(root->right);
+        if (!root)
+            return 0;
+
+        int hl = 0, hr = 0;
+        TreeNode *l = root, *r = root;
+
+        while (l) {
+            hl++;
+            l = l->left;
+        }
+        while (r) {
+            hr++;
+            r = r->right;
+        }
+
+        if (hl == hr) {
+            // perfect binary tree
+            return (1 << hl) - 1;
+        } else {
+            // recurse both sides
+            return 1 + countNodes(root->left) + countNodes(root->right);
+        }
     }
 };
