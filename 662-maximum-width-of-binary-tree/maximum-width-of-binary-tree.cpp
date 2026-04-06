@@ -20,8 +20,8 @@ public:
         q.push({root, 0});
         while (!q.empty()) {
             int size = q.size();
-            int first, last;
-            int mmin = q.front().second; // to make id starting from 0
+            long long first, last;
+            long long mmin = q.front().second; // to make id starting from 0
             for (int i = 0; i < size; i++) {
                 long long currIndx = q.front().second - mmin;
                 TreeNode* node = q.front().first;
