@@ -45,14 +45,14 @@ public:
             TreeNode* node = q.front();
             q.pop();
 
-            getline(ss,item,',');
+            if(!getline(ss, item, ',')) break;
             if(item != "null"){
                 TreeNode* leftNode = new TreeNode(stoi(item));
                 node->left = leftNode;
                 q.push(leftNode);
             }
 
-            getline(ss, item, ',');
+            if(!getline(ss, item, ',')) break;
             if(item != "null"){
                 TreeNode* rightNode = new TreeNode(stoi(item));
                 node->right = rightNode;
