@@ -13,7 +13,7 @@ public:
             busy;
         vector<int> count(n, 0);
 
-        for (auto m : meetings) {
+        for (auto& m : meetings) {
             long long st = m[0], end = m[1];
             long long duration = end - st;
 
@@ -23,9 +23,11 @@ public:
             }
 
             if (!available.empty()) {
-                busy.push({end, available.top()});
-                count[available.top()]++;
+                int room = available.top();
                 available.pop();
+
+                busy.push({end, room});
+                count[room]++;
             } else {
                 auto [freeTime, room] = busy.top();
                 busy.pop();
