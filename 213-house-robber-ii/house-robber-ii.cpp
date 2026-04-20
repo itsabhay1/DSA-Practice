@@ -1,30 +1,33 @@
 class Solution {
 public:
-    int solve(int i, vector<int>&nums, vector<int>& dp){
-        if(i==0) return nums[0];
-        if(i<0) return 0;
+    int solve(vector<int>& nums, vector<int>& dp) {
+        dp[0] = nums[0];
+        int n = nums.size();
 
-        if(dp[i] != -1) return dp[i];
+        for (int i = 1; i < n; i++) {
+            int take = nums[i];
+            if (i > 1)
+                take += dp[i - 2];
+            int nottake = dp[i-1];
 
-        int take = nums[i] + solve(i-2, nums,dp);
-        int nottake = solve(i-1,nums, dp);
-
-        return dp[i] =  max(take,nottake);
+            dp[i] = max(take, nottake);
+        }
+        return dp[n-1];
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        if(n==1) return nums[0];
+        if (n == 1)
+            return nums[0];
 
         // case1 - removing last house
-        vector<int>a(nums.begin(), nums.end()-1);
+        vector<int> a(nums.begin(), nums.end() - 1);
 
-        //case 2 - removing first house
-        vector<int>b(nums.begin()+1, nums.end());
+        // case 2 - removing first house
+        vector<int> b(nums.begin() + 1, nums.end());
 
-        vector<int>dp1(a.size(), -1);
-        vector<int>dp2(b.size(), -1);
+        vector<int> dp1(a.size(), 0);
+        vector<int> dp2(b.size(), 0);
 
-        
-        return max(solve(a.size()-1, a, dp1), solve(b.size()-1, b, dp2));
+        return max(solve(a, dp1), solve(b, dp2));
     }
 };
