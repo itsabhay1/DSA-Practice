@@ -1,32 +1,20 @@
 class Solution {
 private:
- void bfs(int row, int col, vector<vector<char>>& grid){
-    queue<pair<int,int>>q;
-    q.push({row,col});
-
-    grid[row][col] = '0';
+void dfs(int row, int col, vector<vector<char>>& grid){
 
     int n = grid.size();
     int m = grid[0].size();
 
-    vector<int> drow = {-1,0,1,0};
-    vector<int> dcol = {0,1,0,-1};
-
-    while(!q.empty()){
-        auto [r,c] = q.front();
-        q.pop();
-
-        for(int i=0; i<4; i++){
-            int nr = r + drow[i];
-            int nc = c + dcol[i];
-
-            if(nr>=0 && nc >=0 && nr<n && nc<m && grid[nr][nc] == '1'){
-                q.push({nr,nc});
-                grid[nr][nc] = '0';
-            }
-        }
+    if(row >= n || col >= m || row < 0 || col < 0 || grid[row][col] == '0'){
+        return;
     }
- }
+    grid[row][col] = '0';
+
+    dfs(row+1,col,grid);
+    dfs(row-1,col,grid);
+    dfs(row,col+1,grid);
+    dfs(row,col-1,grid);
+}
 public:
     int numIslands(vector<vector<char>>& grid) {
         int n = grid.size();
@@ -39,7 +27,7 @@ public:
 
                 if(grid[i][j] == '1'){
                     cnt++;
-                    bfs(i,j,grid);
+                    dfs(i,j,grid);
                 }
             }
         }
