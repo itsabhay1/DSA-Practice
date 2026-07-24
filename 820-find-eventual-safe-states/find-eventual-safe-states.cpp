@@ -8,12 +8,10 @@ private:
         for(auto  it: graph[node]){
             if(!vis[it]){
                 if(dfs(it,vis,pathVis,graph,check)){
-                    check[node] = 0;
                     return true;
                 }
             }
             else if(pathVis[it]){
-                check[node] = 0;
                 return true;
             }
         }
