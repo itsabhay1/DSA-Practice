@@ -1,37 +1,36 @@
 class Solution {
 public:
+    bool dfs(int node, vector<int>&vis, vector<int>&pathVis, vector<vector<int>>&adj){
+        vis[node] = 1;
+        pathVis[node] = 1;
+
+        for(auto neigh: adj[node]){
+            if(!vis[neigh]){
+                if(dfs(neigh,vis,pathVis,adj) == false) return false;
+            }
+
+            else if(pathVis[neigh]) return false;
+        }
+
+        pathVis[node] = 0;
+        return true;
+    }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj(numCourses);
-        vector<int>indegree(numCourses,0);
 
         for(auto edge: prerequisites){
             adj[edge[1]].push_back(edge[0]);
-            indegree[edge[0]]++;
         }
 
-        queue<int> q;
-        int cnt = 0;
+        vector<int> vis(numCourses, 0);
+        vector<int> pathVis(numCourses,0);
 
         for(int i=0; i<numCourses; i++){
-            if(indegree[i] == 0) q.push(i);
-        }
-
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            cnt++;
-
-            for(auto neigh: adj[node]){
-                indegree[neigh]--;
-                if(indegree[neigh] == 0){
-                    q.push(neigh);
-                }
+            if(!vis[i]){
+                if(dfs(i,vis,pathVis,adj) == false) return false;
             }
-
         }
-
-        if(cnt == numCourses) return true;
-        return false;
+        return true;
         
     }
 };
