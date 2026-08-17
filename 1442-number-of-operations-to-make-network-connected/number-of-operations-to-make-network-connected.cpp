@@ -25,7 +25,7 @@ class DisjointSet {
         }
         else{
             parent[ulpY] = ulpX;
-            size[ulpX] += ulpY;
+            size[ulpX] += size[ulpY];
         }
     }
 };
