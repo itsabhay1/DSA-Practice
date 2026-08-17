@@ -37,7 +37,7 @@ public:
 
         int countEdge = 0, compo = 0;
 
-        for(auto it: connections){
+        for(auto &it: connections){
             int u = it[0];
             int v = it[1];
             if(ds.ultiParent(u) == ds.ultiParent(v)) countEdge++;
