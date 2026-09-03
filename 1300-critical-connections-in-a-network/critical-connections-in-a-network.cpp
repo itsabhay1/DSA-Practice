@@ -7,7 +7,7 @@ private:
                 tin[node] = low[node] = timer;
                 timer++;
 
-                for(auto& it: adj[node]){
+                for(auto it: adj[node]){
                     if(it == parent) continue;
                     if(vis[it] == 0){
                         dfs(it, node, adj, vis, tin, low, critical);
@@ -26,7 +26,7 @@ private:
 public:
     vector<vector<int>> criticalConnections(int n,vector<vector<int>>& connections) {
         vector<vector<int>> adj(n);
-        for (auto it : connections) {
+        for (auto& it : connections) {
             adj[it[0]].push_back(it[1]);
             adj[it[1]].push_back(it[0]);
         }
