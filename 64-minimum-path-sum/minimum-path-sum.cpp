@@ -8,8 +8,6 @@ public:
         int up = solve(i-1,j, grid, dp);
         int left = solve(i,j-1,grid, dp);
 
-        dp[i][j] = min(up,left);
-
         int best = min(up, left);
         if (best == INT_MAX)
             return dp[i][j] = INT_MAX;
