@@ -1,25 +1,25 @@
 class Solution {
 public:
-    bool f(int i, string &s, unordered_set<string>& st, vector<int>& dp){
-        if(i<0) return true;
-
-        if(dp[i] != -1) return dp[i];
-        string temp = "";
-        for(int j = i; j>=0; j--){
-            temp = s[j] + temp;
-            if(st.find(temp) != st.end()){
-                if(f(j-1, s, st, dp)) return dp[i] = true;
-            }
-        }
-        return dp[i] = false;
-    }
     bool wordBreak(string s, vector<string>& wordDict) {
        unordered_set<string> st(wordDict.begin(), wordDict.end());
 
        int n = s.size();
 
-       vector<int>dp(n, -1);
+       vector<bool>dp(n+1, 0);
 
-       return f(n-1, s, st, dp);
+       dp[0] = true;
+
+       for(int i=1; i<=n; i++){
+        string temp = "";
+        for(int j =i; j>=1; j--){
+            temp = s[j-1] + temp;
+            if(st.find(temp) != st.end() && dp[j-1]){
+                dp[i] = true;
+                break;
+            }
+        }
+       }
+       return dp[n];
+       
     }
 };
