@@ -1,27 +1,24 @@
 class Solution {
 public:
+    int f(int i, int transNo, int k, int n, vector<int> &prices, vector<vector<int>>& dp){
+        if(i == n || transNo == 2*k) return 0;
+
+        if(dp[i][transNo] != -1) return dp[i][transNo];
+
+        if(transNo%2 == 0){  //buy
+            return dp[i][transNo] = max(-prices[i] + f(i+1, transNo+1, k, n, prices, dp), 
+            0 + f(i+1, transNo, k, n, prices, dp)
+            );
+        }
+        else{  // sell
+            return dp[i][transNo] = max(prices[i] + f(i+1, transNo+1, k, n, prices, dp),
+            0 + f(i+1, transNo, k, n, prices, dp)
+            );
+        }
+    }
     int maxProfit(int k, vector<int>& prices) {
         int n = prices.size();
-        vector<vector<int>> ahead(2, vector<int>(k+1, 0)), curr(2, vector<int>(k+1, 0));
-        
-        for(int i = n-1; i>=0; i--){
-            for(int buy =0; buy<=1; buy++){
-                for(int cap =0; cap <k; cap ++){
-                    int maxP = 0;
-                    if(buy){
-                        maxP = max(-prices[i] + ahead[0][cap],
-                        ahead[1][cap]);
-                    }
-                    else{
-                        maxP = max(prices[i] + ahead[1][cap+1],
-                        ahead[0][cap]);
-                    }
-
-                    curr[buy][cap] = maxP;
-                }
-            }
-            ahead = curr;
-        }
-        return ahead[1][0];
+        vector<vector<int>> dp(n, vector<int>(2*k, -1));
+        return f(0, 0, k, n, prices, dp);
     }
 };
