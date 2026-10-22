@@ -31,6 +31,8 @@ public:
         temp.push_back(nums[lastIndex]);
        }
 
+       reverse(temp.begin(), temp.end());
+
        return temp;
     }
 };
