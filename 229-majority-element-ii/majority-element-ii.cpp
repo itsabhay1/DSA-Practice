@@ -13,14 +13,11 @@ public:
                 el2 = nums[i];
                 cnt2 = 1;
             }
-
+            else if(nums[i] == el1) cnt1++;
+            else if(nums[i] == el2) cnt2++;
             else{
-                if(nums[i] == el1) cnt1++;
-                else if(nums[i] == el2) cnt2++;
-                else{
-                    cnt1--;
-                    cnt2--;
-                }
+                cnt1--;
+                cnt2--;
             }
         }
 
